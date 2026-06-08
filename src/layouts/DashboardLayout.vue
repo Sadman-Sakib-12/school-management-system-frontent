@@ -31,6 +31,18 @@
           <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           Assignments
         </router-link>
+        <router-link to="/dashboard/fees" class="flex items-center px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-300 font-medium transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Fees
+        </router-link>
+        <router-link to="/dashboard/notices" class="flex items-center px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-300 font-medium transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+          Notices
+        </router-link>
+        <router-link to="/dashboard/reports" class="flex items-center px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-300 font-medium transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          Reports
+        </router-link>
       </nav>
       <div class="p-4 border-t border-gray-200 dark:border-gray-700">
         <button @click="logout" class="w-full flex items-center px-4 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-colors">
@@ -73,9 +85,38 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { io } from 'socket.io-client';
 
 const router = useRouter();
+
+let socket: any;
+
+onMounted(() => {
+  // Replace with actual backend URL in production
+  socket = io('http://localhost:5000');
+  
+  socket.on('connect', () => {
+    console.log('Connected to socket server');
+    // Assuming we have the logged-in user's ID
+    const userId = 'mock-user-id'; // Replace with actual user ID from store
+    socket.emit('join', userId);
+  });
+
+  socket.on('new_notification', (data) => {
+    console.log('New real-time notification received:', data);
+    // Here you would trigger a toast or update a notification counter in the UI
+    alert(`New Notification: ${data.title}`);
+  });
+});
+
+onUnmounted(() => {
+  if (socket) {
+    socket.disconnect();
+  }
+});
+
 const logout = () => {
   // Mock logout
   localStorage.removeItem('token');

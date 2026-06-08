@@ -26,7 +26,10 @@ const router = createRouter({
         { path: 'teachers', component: () => import('../pages/dashboard/Teachers.vue') },
         { path: 'attendance', component: () => import('../pages/dashboard/Attendance.vue') },
         { path: 'exams', component: () => import('../pages/dashboard/Exams.vue') },
-        { path: 'assignments', component: () => import('../pages/dashboard/Assignments.vue') }
+        { path: 'assignments', component: () => import('../pages/dashboard/Assignments.vue') },
+        { path: 'fees', component: () => import('../pages/dashboard/Fees.vue') },
+        { path: 'notices', component: () => import('../pages/dashboard/Notices.vue') },
+        { path: 'reports', component: () => import('../pages/dashboard/Reports.vue') }
       ]
     }
   ]

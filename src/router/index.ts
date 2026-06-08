@@ -21,7 +21,9 @@ const router = createRouter({
       component: DashboardLayout,
       meta: { requiresAuth: true },
       children: [
-        { path: '', component: () => import('../pages/dashboard/Index.vue') }
+        { path: '', component: () => import('../pages/dashboard/Index.vue') },
+        { path: 'students', component: () => import('../pages/dashboard/Students.vue') },
+        { path: 'teachers', component: () => import('../pages/dashboard/Teachers.vue') }
       ]
     }
   ]

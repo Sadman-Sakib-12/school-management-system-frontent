@@ -23,7 +23,10 @@ const router = createRouter({
       children: [
         { path: '', component: () => import('../pages/dashboard/Index.vue') },
         { path: 'students', component: () => import('../pages/dashboard/Students.vue') },
-        { path: 'teachers', component: () => import('../pages/dashboard/Teachers.vue') }
+        { path: 'teachers', component: () => import('../pages/dashboard/Teachers.vue') },
+        { path: 'attendance', component: () => import('../pages/dashboard/Attendance.vue') },
+        { path: 'exams', component: () => import('../pages/dashboard/Exams.vue') },
+        { path: 'assignments', component: () => import('../pages/dashboard/Assignments.vue') }
       ]
     }
   ]
